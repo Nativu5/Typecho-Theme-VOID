@@ -54,9 +54,9 @@ if($this->is('post') || $this->is('page')) {
                     <span></span>
                 </a>
                 <a class="brand" href="<?php Utils::index(''); ?>"><?php if($setting['name']) echo $setting['name']; else echo $this->options->title; ?></a>
-                <a href="<?php Utils::index(''); ?>">首页</a>
+                <a href="<?php Utils::index(''); ?>">首页 / Homepage</a>
                 <?php $this->widget('Widget_Contents_Page_List')->parse('<a href="{permalink}">{title}</a>'); ?>
-                <span class="dropdown">分类
+                <span class="dropdown">分类 / Category
                     <ul>
                         <?php $this->widget('Widget_Metas_Category_List')->parse('<li><a href="{permalink}">{name}</a></li>'); ?>
                     </ul>
