@@ -164,8 +164,9 @@ header{
                     outline: none;
                     background: none;
                     border: solid 1px $headerTextColor;
-                    border-radius: 1rem;
+                    border-radius: 0.25rem;
                     color: inherit;
+                    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.4);
                     &:focus{
                         width: 11rem;
                     }
