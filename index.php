@@ -2,7 +2,7 @@
 /**
  * VOID：无类型
  * 
- * 作者：<a href="https://www.imalan.cn">熊猫小A</a> AND <a href="https://naiv.fun">Nativus</a>
+ * 作者：<a href="https://www.imalan.cn">熊猫小A</a> && <a href="https://naiv.fun">Nativus</a>
  * 
  * @package     Typecho-Theme-VOID
  * @author      熊猫小A & Nativus
