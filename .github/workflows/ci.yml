@@ -3,7 +3,7 @@ name: Build
 on:
   push:
     branches:
-      - master
+      - self-use
 
 jobs:
   build:
