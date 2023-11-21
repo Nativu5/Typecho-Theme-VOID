@@ -2,12 +2,12 @@
 /**
  * VOID：无类型
  * 
- * 作者：<a href="https://www.imalan.cn">熊猫小A</a>
+ * 作者：<a href="https://www.imalan.cn">熊猫小A</a> AND <a href="https://naiv.fun">Nativus</a>
  * 
  * @package     Typecho-Theme-VOID
- * @author      熊猫小A
- * @version     3.5.1
- * @link        https://blog.imalan.cn/archives/247/
+ * @author      熊猫小A & Nativus
+ * @version     3.5.1-MOD
+ * @link        https://naiv.fun/
  */
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 $setting = $GLOBALS['VOIDSetting']; 
