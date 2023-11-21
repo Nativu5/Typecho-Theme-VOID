@@ -15,12 +15,16 @@ $setting = $GLOBALS['VOIDSetting'];
                 <section>
                     <p>© <?php echo date('Y '); ?> <span class="brand"><?php echo $this->options->title; ?></span></p>
                     <p>感谢陪伴：<span id="uptime"></span></p>
-                    <span id="jinrishici-sentence">Loading....</span>
+                    <p id="jinrishici-sentence">Loading....</p>
                     <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
                 </section>
                 <section>
-                    <p>Powered by <a href="http://typecho.org/">Typecho</a> • <a href="https://blog.imalan.cn/archives/247/">Theme VOID</a></p>
-                    <span><?php echo $setting['footer']; ?></span>
+                    <p>Powered by
+                        <a href="http://typecho.org/">Typecho</a> •
+                        <a href="https://blog.imalan.cn/archives/247/">Theme VOID</a>  
+                        <a href="https://github.com/Nativu5/Typecho-Theme-VOID/tree/self-use">(Mod: Nativus)</a>
+                    </p>
+                    <?php echo $setting['footer']; ?>
                 </section>
             </div>
         </footer>
