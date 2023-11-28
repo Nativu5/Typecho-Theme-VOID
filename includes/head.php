@@ -58,7 +58,7 @@ if (isset($_POST['void_action'])) {
 
     <!--CSS-->
     <link rel="stylesheet" href="<?php Utils::indexTheme('/assets/bundle-1e9bf597b1.css');?>">
-    <link rel="stylesheet" href="<?php Utils::indexTheme('/assets/VOID-4568c62246.css');?>">
+    <link rel="stylesheet" href="<?php Utils::indexTheme('/assets/VOID-350f77d254.css');?>">
 
     <!--JS-->
     <script src="<?php Utils::indexTheme('/assets/bundle-header-c3f7d82f38.js'); ?>"></script>
@@ -90,7 +90,7 @@ if (isset($_POST['void_action'])) {
         isDev: true
     }
     </script>
-    <script src="<?php Utils::indexTheme('/assets/header-fd3209d155.js'); ?>"></script>
+    <script src="<?php Utils::indexTheme('/assets/header-8e6d20836f.js'); ?>"></script>
     
     <?php echo $setting['head']; ?>
     <style>
@@ -121,13 +121,13 @@ if (isset($_POST['void_action'])) {
     </style>
     <?php endif; ?>
 
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.cn/css?family=Open+Sans:300,400,700&display=swap" rel="stylesheet">
     <?php if(Utils::isSerif($setting)): ?>
-        <link id="stylesheet_noto" href="https://fonts.googleapis.com/css?family=Noto+Serif+SC:300,400,700&display=swap&subset=chinese-simplified" rel="stylesheet">
+        <link id="stylesheet_noto" href="https://fonts.googleapis.cn/css?family=Noto+Serif+SC:300,400,700&display=swap&subset=chinese-simplified" rel="stylesheet">
     <?php endif; ?>
 
     <?php if($setting['useFiraCodeFont']): ?>
-        <link href="https://fonts.googleapis.com/css?family=Fira+Code&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.cn/css?family=Fira+Code&display=swap" rel="stylesheet">
         <style>.yue code, .yue tt {font-family: "Fira Code", Menlo, Monaco, Consolas, "Courier New", monospace}</style>
     <?php endif; ?>
 
