@@ -11,7 +11,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 $setting = $GLOBALS['VOIDSetting'];
 $parameter = array(
     'parentId'      => $this->hidden ? 0 : $this->cid,
-    'parentContent' => $this->row,
+    'parentContent' => $this,
     'respondId'     => $this->respondId,
     'commentPage'   => $this->request->filter('int')->commentPage,
     'allowComment'  => $this->allow('comment')
@@ -49,9 +49,9 @@ $this->widget('VOID_Widget_Comments_Archive', $parameter)->to($comments);
                             placeholder="电子邮件<?php echo Helper::options()->commentsRequireMail? '(必填，将保密)' : '(选填)' ?>" 
                             <?php echo Helper::options()->commentsRequireMail? 'required' : '' ?>
                             value="<?php $this->remember('mail'); ?>" />
-                        <input aria-label="网站<?php echo Helper::options()->commentsRequireURL? '(必填)' : '(选填)' ?>" type="url" name="url" id="url" 
-                            <?php echo Helper::options()->commentsRequireURL? 'required' : '' ?>
-                            placeholder="网站<?php echo Helper::options()->commentsRequireURL? '(必填)' : '(选填)' ?>"  
+                        <input aria-label="网站<?php echo Helper::options()->commentsRequireUrl? '(必填)' : '(选填)' ?>" type="url" name="url" id="url" 
+                            <?php echo Helper::options()->commentsRequireUrl? 'required' : '' ?>
+                            placeholder="网站<?php echo Helper::options()->commentsRequireUrl? '(必填)' : '(选填)' ?>"  
                             value="<?php $this->remember('url'); ?>" />
                         </div>
                     <?php endif; ?>

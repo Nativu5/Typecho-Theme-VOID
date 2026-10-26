@@ -44,7 +44,7 @@ if (isset($_POST['void_action'])) {
     <meta property="og:description" content="<?php if($description != '') echo $description; else $this->excerpt(50); ?>" />
     <meta property="og:site_name" content="<?php Contents::title($this); ?>" />
     <meta property="og:type" content="<?php if($this->is('post') || $this->is('page')) echo 'article'; else echo 'website'; ?>" />
-    <meta property="og:url" content="<?php $this->permalink(); ?>" />
+    <meta property="og:url" content="<?php echo $this->cid ? $this->permalink : $this->options->siteUrl; ?>" />
     <meta property="og:image" content="<?php echo $banner; ?>" />
     <meta property="article:published_time" content="<?php echo date('c', $this->created); ?>" />
     <meta property="article:modified_time" content="<?php echo date('c', $this->modified); ?>" />
@@ -58,7 +58,7 @@ if (isset($_POST['void_action'])) {
 
     <!--CSS-->
     <link rel="stylesheet" href="<?php Utils::indexTheme('/assets/bundle-1e9bf597b1.css');?>">
-    <link rel="stylesheet" href="<?php Utils::indexTheme('/assets/VOID-350f77d254.css');?>">
+    <link rel="stylesheet" href="<?php Utils::indexTheme('/assets/VOID-fff32c1603.css');?>">
 
     <!--JS-->
     <script src="<?php Utils::indexTheme('/assets/bundle-header-c3f7d82f38.js'); ?>"></script>

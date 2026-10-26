@@ -88,7 +88,9 @@ $setting = $GLOBALS['VOIDSetting'];
                             <input type="text" name="name" autocomplete="username" placeholder="请输入用户名" required/>
                             <input type="password" name="password" autocomplete="current-password" placeholder="请输入密码" required/>
                             <input type="hidden" name="referer" value="<?php 
-                                if($this->is('index')) $this->options->siteUrl();
+                                // Typecho 1.3 throws when asked for a permalink
+                                // with no content row seated (e.g. the 404 page).
+                                if($this->is('index') || !$this->cid) $this->options->siteUrl();
                                 else $this->permalink();
                             ?>">
                         </div>
@@ -136,7 +138,7 @@ $setting = $GLOBALS['VOIDSetting'];
         }
         </script>
         <?php endif; ?>
-        <script data-manual src="<?php Utils::indexTheme('/assets/bundle-35ea1de458.js'); ?>"></script>
+        <script data-manual src="<?php Utils::indexTheme('/assets/bundle-bdcc560211.js'); ?>"></script>
         <?php if($setting['enableMath']): ?>
         <script src='<?php Utils::indexTheme('/assets/libs/mathjax/2.7.4/MathJax.js'); ?>'></script>
         <?php endif; ?>

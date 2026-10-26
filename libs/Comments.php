@@ -105,6 +105,7 @@ class VOID_Widget_Comments_Archive extends Widget_Abstract_Comments
 
         $setting = $GLOBALS['VOIDSetting'];
         
+        $commentClass = '';
         $avatarClass = '';
         if ($this->authorId) {
             if ($this->authorId == $this->ownerId) {
@@ -224,12 +225,12 @@ class VOID_Widget_Comments_Archive extends Widget_Abstract_Comments
     {
 
         if ($this->options->commentsPageBreak) {            
-            $pageRow = array('permalink' => $this->parentContent['pathinfo'], 'commentPage' => $this->_currentPage);
+            $pageRow = array('permalink' => $this->parentContent->path, 'commentPage' => $this->_currentPage);
             return Typecho_Router::url('comment_page',
                         $pageRow, $this->options->index) . '#' . $this->theId;
         }
         
-        return $this->parentContent['permalink'] . '#' . $this->theId;
+        return $this->parentContent->permalink . '#' . $this->theId;
     }
 
     /**
@@ -261,7 +262,7 @@ class VOID_Widget_Comments_Archive extends Widget_Abstract_Comments
      * @access protected
      * @return void
      */
-    protected function ___parentContent() : ?array
+    protected function ___parentContent(): \Widget\Base\Contents
     {
         return $this->parameter->parentContent;
     }
@@ -375,8 +376,10 @@ class VOID_Widget_Comments_Archive extends Widget_Abstract_Comments
                 ($this->_currentPage - 1) * $this->options->commentsPageSize, $this->options->commentsPageSize);
             
             /** 评论置位 */
-            $this->row = current($this->stack);
             $this->length = count($this->stack);
+            // Typecho 1.3 types Widget::$row as array, and current() returns
+            // false when this page of comments is empty (a post with none).
+            $this->row = $this->length > 0 ? current($this->stack) : array();
         }
         
         reset($this->stack);
@@ -437,10 +440,10 @@ class VOID_Widget_Comments_Archive extends Widget_Abstract_Comments
 
             $template = array_merge($default, $config);
 
-            $pageRow = $this->parameter->parentContent;
-            $pageRow['permalink'] = $pageRow['pathinfo'];
-
-            $query = Typecho_Router::url('comment_page', $pageRow, $this->options->index);
+            $query = Typecho_Router::url('comment_page', array(
+                'permalink'   => $this->parameter->parentContent->path,
+                'commentPage' => '{commentPage}'
+            ), $this->options->index);
 
             /** 使用盒状分页 */
             $nav = new Typecho_Widget_Helper_PageNavigator_Box($this->_total,
@@ -592,7 +595,7 @@ class VOID_Widget_Comments_Archive extends Widget_Abstract_Comments
             
             if (!$plugged) {
                 $replyId = $this->request->filter('int')->replyTo;
-                echo '<a id="cancel-comment-reply-link" href="' . $this->parameter->parentContent['permalink'] . '#' . $this->parameter->respondId .
+                echo '<a id="cancel-comment-reply-link" href="' . $this->parameter->parentContent->permalink . '#' . $this->parameter->respondId .
                 '" rel="nofollow"' . ($replyId ? '' : ' style="display:none"') . ' onclick="return TypechoComment.cancelReply();">' . $word . '</a>';
             }
         }
