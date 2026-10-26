@@ -507,20 +507,24 @@ Class Contents
                     ->where('table.contents.created < ?', time()));
 
         $stat = array();
+        // Typecho 1.3's filter() no longer adds permalink/category/... to the
+        // row; they are lazily computed widget properties now. Seat each row on
+        // a scratch contents widget and read the properties off that.
+        $helper = Widget_Abstract_Contents::alloc();
         foreach ($rows as $row) {
-            $row = $widget->filter($row);
+            $helper->push($row);
             $arr = array(
-                'title' => $row['title'],
-                'permalink' => $row['permalink']);
+                'title' => $helper->title,
+                'permalink' => $helper->permalink);
 
             if(Utils::isPluginAvailable('VOID')) {
-                $arr['words'] = $row['wordCount'];
+                $arr['words'] = $helper->wordCount;
             }
             
             if($excerpt){
-                $arr['excerpt'] = substr($row['content'], 30);
+                $arr['excerpt'] = substr($helper->content, 30);
             }
-            $stat[date('Y', $row['created'])][$row['created']] = $arr;
+            $stat[date('Y', $helper->created)][$helper->created] = $arr;
         }
         return $stat;
     }
