@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable no-undef */
 var gulp = require('gulp');
-var sass = require('gulp-sass')(require('node-sass'));
+var sass = require('gulp-sass')(require('sass'));
 var prefix = require('gulp-autoprefixer');
 var minify = require('gulp-clean-css');
 var rev = require('gulp-rev');
@@ -43,15 +43,17 @@ gulp.task('pack:css:main', function () {
 });
 
 // 依赖 JS 压缩混淆，除 Mathjax
-gulp.task('pack:js:dep', function () {
-    gulp.src(['./assets/libs/header/jquery/jquery.min.js', './assets/libs/header/**/*.js'])
+gulp.task('pack:js:dep:header', function () {
+    return gulp.src(['./assets/libs/header/jquery/jquery.min.js', './assets/libs/header/**/*.js'])
         .pipe(concat('bundle-header.js'))
         .pipe(uglify())
         .pipe(rev())
         .pipe(gulp.dest('./build/assets/'))
         .pipe(rev.manifest())
         .pipe(gulp.dest('temp/rev/js_bundle-header'));
+});
 
+gulp.task('pack:js:dep:rest', function () {
     return gulp.src(['./assets/libs/**/*.js', '!./assets/libs/header/**/*', '!./assets/libs/mathjax/**/*'])
         .pipe(concat('bundle.js'))
         .pipe(uglify())
@@ -60,6 +62,8 @@ gulp.task('pack:js:dep', function () {
         .pipe(rev.manifest())
         .pipe(gulp.dest('temp/rev/js_bundle'));
 });
+
+gulp.task('pack:js:dep', gulp.parallel('pack:js:dep:header', 'pack:js:dep:rest'));
 
 // 主 JS 压缩混淆
 gulp.task('pack:js:main', function () {
@@ -77,19 +81,32 @@ gulp.task('pack:js:main', function () {
 
 // 静态文件加戳
 gulp.task('md5', function () {
-    return gulp.src(['temp/rev/**/*.json', './**/*.php'])
+    return gulp.src([
+        'temp/rev/**/*.json',
+        './**/*.php',
+        '!./node_modules/**',
+        '!./build/**'])
         .pipe(revCollector())
         .pipe(gulp.dest('./build/'));
 });
 
 // 无需处理的文件
-gulp.task('move', function () {
-    gulp.src(['./assets/libs/owo/**/*', './assets/libs/mathjax/**/*'], { base: './assets/libs/' })
+gulp.task('move:libs', function () {
+    return gulp.src(['./assets/libs/owo/**/*', './assets/libs/mathjax/**/*'], { base: './assets/libs/' })
         .pipe(gulp.dest('./build/assets/libs/'));
-    gulp.src(['./assets/sw-toolbox.js', './assets/VOIDCacheRule.js'])
+});
+
+gulp.task('move:assets', function () {
+    return gulp.src(['./assets/sw-toolbox.js', './assets/VOIDCacheRule.js'])
         .pipe(gulp.dest('./build/assets/'));
-    gulp.src(['./assets/fonts/*'])
+});
+
+gulp.task('move:fonts', function () {
+    return gulp.src(['./assets/fonts/*'])
         .pipe(gulp.dest('./build/assets/fonts/'));
+});
+
+gulp.task('move:root', function () {
     return gulp.src(['./LICENSE',
         './README.md',
         './screenshot.png',
@@ -98,22 +115,30 @@ gulp.task('move', function () {
         .pipe(gulp.dest('./build/'));
 });
 
+gulp.task('move', gulp.parallel('move:libs', 'move:assets', 'move:fonts', 'move:root'));
+
 gulp.task('build', gulp.series('clean', gulp.parallel('pack:css:main', 'pack:css:dep', 'pack:js:main', 'pack:js:dep'), 'md5', 'move'));
 
 // 开发过程，处理一次依赖
-gulp.task('dev', function () {
-    gulp.src(['./assets/libs/**/*.css', '!./assets/libs/mathjax/**/*'])
+gulp.task('dev:css', function () {
+    return gulp.src(['./assets/libs/**/*.css', '!./assets/libs/mathjax/**/*'])
         .pipe(concat('bundle.css'))
         .pipe(gulp.dest('./assets/'));
+});
 
-    gulp.src(['./assets/libs/header/jquery/jquery.min.js', './assets/libs/header/**/*.js'])
+gulp.task('dev:js:header', function () {
+    return gulp.src(['./assets/libs/header/jquery/jquery.min.js', './assets/libs/header/**/*.js'])
         .pipe(concat('bundle-header.js'))
         .pipe(gulp.dest('./assets/'));
+});
 
+gulp.task('dev:js', function () {
     return gulp.src(['./assets/libs/**/*.js', '!./assets/libs/header/**/*', '!./assets/libs/mathjax/**/*'])
         .pipe(concat('bundle.js'))
         .pipe(gulp.dest('./assets/'));
 });
+
+gulp.task('dev', gulp.parallel('dev:css', 'dev:js:header', 'dev:js'));
 
 // 开发过程，监视 SCSS
 gulp.task('sass', function () {

@@ -4,28 +4,31 @@ on:
   push:
     branches:
       - self-use
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-    - name: Set up Node 10
-      uses: actions/setup-node@v1
-      with:
-        node-version: '10.x'
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
 
-    - name: Build
-      run: |
-        make
-    - name: Deploy Build
-      uses: docker://peaceiris/gh-pages:v2
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        PUBLISH_BRANCH: nightly
-        PUBLISH_DIR: ./build
-      with:
-        emptyCommits: false
+      - name: Build
+        run: make
+
+      - name: Deploy Build
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: nightly
+          publish_dir: ./build
+          commit_message: 'Automated deployment: ${{ github.sha }}'
