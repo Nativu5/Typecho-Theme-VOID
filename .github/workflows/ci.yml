@@ -31,4 +31,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: nightly
           publish_dir: ./build
-          commit_message: 'Automated deployment: ${{ github.sha }}'
+          # actions-gh-pages appends the source SHA itself
+          commit_message: 'Automated deployment:'
